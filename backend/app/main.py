@@ -9,6 +9,14 @@ from .services.prediction import predict_proba, simulate_outcomes
 async def health(request: Request):
     return JSONResponse({"status": "ok"})
 
+async def index(request: Request):
+    return JSONResponse({
+        "name": "CricketIQ API Engine",
+        "version": "1.0.0",
+        "status": "online",
+        "health_check": "/health"
+    })
+
 async def teams(request: Request):
     data = await provider.list_teams()
     return JSONResponse(data)
@@ -91,6 +99,7 @@ async def feature_importance(request: Request):
     return JSONResponse({"features": []})
 
 routes = [
+    Route("/", index),
     Route("/health", health),
     Route("/teams", teams),
     Route("/venues", venues),
