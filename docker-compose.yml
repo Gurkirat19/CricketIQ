@@ -1,0 +1,62 @@
+version: "3.9"
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_BASE=${VITE_API_BASE}
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - CRICKETIQ_PROVIDER=${CRICKETIQ_PROVIDER}
+      - CRICAPI_KEY=${CRICAPI_KEY}
+      - SPORTMONKS_API_TOKEN=${SPORTMONKS_API_TOKEN}
+      - EMBEDDINGS_DIR=${EMBEDDINGS_DIR}
+      - CHROMA_DB_DIR=${CHROMA_DB_DIR}
+      - BACKEND_HOST=${BACKEND_HOST}
+      - BACKEND_PORT=${BACKEND_PORT}
+      - CORS_ORIGINS=${CORS_ORIGINS}
+    depends_on:
+      - db
+      - chroma
+    volumes:
+      - ./backend:/app
+      - ./ml:/ml
+      - ./ai:/ai
+
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./database/init:/docker-entrypoint-initdb.d
+
+  chroma:
+    image: chromadb/chroma:latest
+    volumes:
+      - chromadata:/chroma
+    environment:
+      - IS_PERSISTENT=TRUE
+    ports:
+      - "8001:8001"
+
+volumes:
+  pgdata:
+  chromadata:

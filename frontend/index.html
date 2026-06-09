@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CricketIQ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Lora:ital,wght@0,400..700;1,400..700&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+    <script>
+      window.addEventListener('error', function(e) {
+        var div = document.createElement('div');
+        div.style.position = 'fixed';
+        div.style.top = '0';
+        div.style.left = '0';
+        div.style.width = '100%';
+        div.style.height = '100%';
+        div.style.backgroundColor = '#1a0505';
+        div.style.color = '#ff6b6b';
+        div.style.padding = '20px';
+        div.style.fontFamily = 'monospace';
+        div.style.zIndex = '999999';
+        div.style.overflow = 'auto';
+        div.innerHTML = '<h1>[Runtime Error]</h1><pre>' + e.message + '\n' + e.filename + ':' + e.lineno + '\n\n' + (e.error ? e.error.stack : '') + '</pre>';
+        document.body.appendChild(div);
+      });
+      window.addEventListener('unhandledrejection', function(e) {
+        var div = document.createElement('div');
+        div.style.position = 'fixed';
+        div.style.top = '0';
+        div.style.left = '0';
+        div.style.width = '100%';
+        div.style.height = '100%';
+        div.style.backgroundColor = '#1a0505';
+        div.style.color = '#ff6b6b';
+        div.style.padding = '20px';
+        div.style.fontFamily = 'monospace';
+        div.style.zIndex = '999999';
+        div.style.overflow = 'auto';
+        div.innerHTML = '<h1>[Unhandled Rejection]</h1><pre>' + e.reason + '\n\n' + (e.reason && e.reason.stack ? e.reason.stack : '') + '</pre>';
+        document.body.appendChild(div);
+      });
+    </script>
+  </head>
+  <body class="bg-[#060816] text-white">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

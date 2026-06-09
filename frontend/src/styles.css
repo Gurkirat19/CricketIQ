@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Glassmorphism helpers (no comment changes) */
+.glass {
+  @apply bg-white/5 backdrop-blur-md border border-white/10 shadow-glass;
+}
